@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bgDark"
+    android:padding="24dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Title -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="OKLINK SECURITY ENGINE"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="@color/accentSilver"
+            android:letterSpacing="0.1"
+            android:layout_gravity="center"
+            android:layout_marginBottom="32dp"/>
+
+        <!-- Input Panel -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/cardDark"
+            android:padding="20dp"
+            android:elevation="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ENTER TARGET URL"
+                android:textSize="12sp"
+                android:textColor="@color/textMuted"
+                android:letterSpacing="0.2"
+                android:layout_marginBottom="6dp"/>
+
+            <EditText
+                android:id="@+id/urlInput"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:hint="https://example.com"
+                android:textSize="16sp"
+                android:textColor="@color/textLight"
+                android:hintTextColor="@color/textMuted"
+                android:backgroundTint="@color/royalPurple"/>
+
+            <Button
+                android:id="@+id/scanButton"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:text="ANALYZE"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/textLight"
+                android:backgroundTint="@color/royalPurple"
+                android:layout_marginTop="20dp"/>
+        </LinearLayout>
+
+        <!-- Result Panel -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/cardDark"
+            android:padding="20dp"
+            android:layout_marginTop="32dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ANALYSIS RESULT"
+                android:textSize="12sp"
+                android:textColor="@color/textMuted"
+                android:letterSpacing="0.2"
+                android:layout_marginBottom="10dp"/>
+
+            <TextView
+                android:id="@+id/resultText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textColor="@color/textLight"
+                android:typeface="monospace"/>
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>
