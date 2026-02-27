@@ -3,20 +3,43 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F5F5F5"
+    android:orientation="vertical"
     android:gravity="center"
-    android:orientation="vertical">
+    android:padding="24dp">
 
     <TextView
-        android:text="ScamGuard"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    <TextView
-        android:text="Auto Mode Enabled"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="12dp"/>
+        android:text="🛡 OkLink"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:textColor="#222222"
+        android:layout_marginBottom="8dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Protect yourself from malicious links"
+        android:textSize="14sp"
+        android:textColor="#777777"
+        android:layout_marginBottom="40dp"/>
+
+    <Button
+        android:id="@+id/autoModeBtn"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="Enable Auto Protection"
+        android:backgroundTint="#6A5ACD"
+        android:textColor="#FFFFFF"
+        android:layout_marginBottom="20dp"/>
+
+    <Button
+        android:id="@+id/manualModeBtn"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="Manual URL Scan"
+        android:backgroundTint="#2E8B57"
+        android:textColor="#FFFFFF"/>
 
 </LinearLayout>

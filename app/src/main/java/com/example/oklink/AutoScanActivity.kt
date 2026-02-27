@@ -14,11 +14,14 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Response
 import com.example.oklink.network.RetrofitClient
 import com.example.oklink.network.AnalysisResponse
+import android.util.Log
+import android.graphics.Color
 
 class AutoScanActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.d("AUTO_SCAN", "AutoScanActivity Started")
         setContentView(R.layout.activity_auto_scan)
 
         val url = intent?.dataString ?: "No URL received"
@@ -92,11 +95,14 @@ class AutoScanActivity : AppCompatActivity() {
                 val suspicious = stats.suspicious
                 val harmless = stats.harmless
 
-                val riskLevel = when {
-                    malicious > 5 -> "HIGH RISK"
-                    suspicious > 3 -> "SUSPICIOUS"
-                    else -> "SAFE"
+                val (riskLevel, color) = when {
+                    malicious > 5 -> Pair("DANGEROUS", Color.RED)
+                    suspicious > 3 -> Pair("SUSPICIOUS", Color.YELLOW)
+                    else -> Pair("SAFE", Color.GREEN)
                 }
+
+                resultText.text = riskLevel
+                resultText.setTextColor(color)
 
                 resultText.text =
                     "Risk Level: $riskLevel\n\n" +
