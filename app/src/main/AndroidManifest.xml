@@ -1,39 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    package="com.example.oklink">
 
     <application
         android:allowBackup="true"
-        android:dataExtractionRules="@xml/data_extraction_rules"
-        android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.OkLink">
+
+        <!-- Launcher Activity -->
         <activity
-            android:name=".ManualScanActivity"
+            android:name=".MainActivity"
             android:exported="true">
 
-            <!-- Launcher (for testing) -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
-            <!-- ADD THIS BELOW -->
+        </activity>
+
+        <!-- AUTO MODE (Default Browser Interception) -->
+        <activity
+            android:name=".AutoScanActivity"
+            android:exported="true">
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="http" />
+                <data android:scheme="https" />
+            </intent-filter>
+
+        </activity>
+
+        <!-- MANUAL MODE (Share Link → App) -->
+        <activity
+            android:name=".ManualScanActivity"
+            android:exported="true">
+
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:mimeType="text/plain" />
             </intent-filter>
 
         </activity>
-        <activity
-            android:name=".MainActivity"
-            android:exported="true">
 
-        </activity>
     </application>
 
 </manifest>
