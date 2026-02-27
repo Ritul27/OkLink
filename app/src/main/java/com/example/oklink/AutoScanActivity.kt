@@ -11,7 +11,9 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
+import retrofit2.Response
 import com.example.oklink.network.RetrofitClient
+import com.example.oklink.network.AnalysisResponse
 
 class AutoScanActivity : AppCompatActivity() {
 
@@ -27,7 +29,6 @@ class AutoScanActivity : AppCompatActivity() {
         val cancelButton = findViewById<Button>(R.id.cancelButton)
 
         urlText.text = url
-
         resultText.text = "Scanning with VirusTotal..."
 
         lifecycleScope.launch {
@@ -36,62 +37,78 @@ class AutoScanActivity : AppCompatActivity() {
                 val mediaType = "application/x-www-form-urlencoded".toMediaType()
                 val body = "url=$url".toRequestBody(mediaType)
 
-                // Step 1: Submit URL
+                // STEP 1: Submit URL
                 val submitResponse = RetrofitClient.api.submitUrl(body)
 
-                if (submitResponse.isSuccessful) {
+                if (!submitResponse.isSuccessful) {
+                    resultText.text = "Failed to submit URL."
+                    return@launch
+                }
 
-                    val analysisId = submitResponse.body()?.data?.id
+                val analysisId = submitResponse.body()?.data?.id
 
-                    if (analysisId != null) {
+                if (analysisId == null) {
+                    resultText.text = "Invalid analysis ID."
+                    return@launch
+                }
 
-                        delay(3000) // wait for analysis to complete
+                var analysisResponse: Response<AnalysisResponse>? = null
+                var status = ""
 
-                        // Step 2: Get analysis result
-                        val analysisResponse =
-                            RetrofitClient.api.getAnalysis(analysisId)
+                // STEP 2: Poll until analysis completed
+                repeat(5) {
 
-                        if (analysisResponse.isSuccessful) {
+                    delay(3000)
 
-                            val stats = analysisResponse.body()?.data?.attributes?.stats
+                    analysisResponse =
+                        RetrofitClient.api.getAnalysis(analysisId)
 
-                            if (stats != null) {
-
-                                val malicious = stats.malicious
-                                val suspicious = stats.suspicious
-
-                                val riskLevel = when {
-                                    malicious > 5 -> "HIGH RISK"
-                                    suspicious > 3 -> "SUSPICIOUS"
-                                    else -> "SAFE"
-                                }
-
-                                resultText.text =
-                                    "Risk Level: $riskLevel\n\n" +
-                                            "Malicious: ${stats.malicious}\n" +
-                                            "Suspicious: ${stats.suspicious}\n" +
-                                            "Harmless: ${stats.harmless}"
-
-                            } else {
-                                resultText.text = "Failed to read analysis data."
-                            }
-
-                        } else {
-                            resultText.text = "Failed to fetch analysis result."
-                        }
-
-                    } else {
-                        resultText.text = "Invalid analysis ID."
+                    if (!analysisResponse.isSuccessful) {
+                        resultText.text = "API Error: ${analysisResponse.code()}"
+                        return@launch
                     }
 
-                } else {
-                    resultText.text = "Failed to submit URL."
+                    status = analysisResponse
+                        ?.body()
+                        ?.data
+                        ?.attributes
+                        ?.status ?: ""
+
+                    if (status == "completed") return@repeat
                 }
+
+                val stats = analysisResponse
+                    ?.body()
+                    ?.data
+                    ?.attributes
+                    ?.stats
+
+                if (stats == null) {
+                    resultText.text = "Failed to read analysis data."
+                    return@launch
+                }
+
+                val malicious = stats.malicious
+                val suspicious = stats.suspicious
+                val harmless = stats.harmless
+
+                val riskLevel = when {
+                    malicious > 5 -> "HIGH RISK"
+                    suspicious > 3 -> "SUSPICIOUS"
+                    else -> "SAFE"
+                }
+
+                resultText.text =
+                    "Risk Level: $riskLevel\n\n" +
+                            "Malicious: $malicious\n" +
+                            "Suspicious: $suspicious\n" +
+                            "Harmless: $harmless"
 
             } catch (e: Exception) {
                 resultText.text = "Error: ${e.message}"
             }
         }
+
         openButton.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
             intent.setPackage("com.android.chrome")

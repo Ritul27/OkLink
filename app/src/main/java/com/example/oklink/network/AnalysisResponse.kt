@@ -5,15 +5,16 @@ data class AnalysisResponse(
 )
 
 data class AnalysisData(
-    val attributes: Attributes
+    val attributes: AnalysisAttributes
 )
 
-data class Attributes(
+data class AnalysisAttributes(
+    val status: String,
     val stats: Stats
 )
 
 data class Stats(
-    val harmless: Int,
     val malicious: Int,
-    val suspicious: Int
+    val suspicious: Int,
+    val harmless: Int
 )
