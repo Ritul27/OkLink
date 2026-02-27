@@ -10,5 +10,10 @@
     <!-- Text -->
     <color name="textPrimary">#2C2C2C</color>
     <color name="white">#FFFFFF</color>
+    <color name="bgDark">#121212</color>
+    <color name="accentSilver">#C0C0C0</color>
+    <color name="cardDark">#1E1E1E</color>
+    <color name="textMuted">#9E9E9E</color>
+    <color name="textLight">#FFFFFF</color>
 
 </resources>
