@@ -36,6 +36,7 @@
                 <data android:scheme="http" />
                 <data android:scheme="https" />
             </intent-filter>
+
         </activity>
 
         <!-- MANUAL MODE (Share Link → App) -->
